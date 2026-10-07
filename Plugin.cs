@@ -7,6 +7,7 @@ using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.Injection;
 using XQuinn.BepInEx.Chatbot;
 using XQuinn.Reflection;
 using XQuinn.Runtime;
@@ -173,6 +174,73 @@ namespace XQuinn.NativeVerification
             });
             if (packed != null && sized != null)
             {
+                Test("Types.Array<int> into List<int>(IEnumerable<int>)", () =>
+                {
+                    Type listType = Il2CppType.Of<Il2CppSystem.Collections.Generic.List<int>>();
+                    Type enumerableType = Il2CppType.Of<Il2CppSystem.Collections.Generic.IEnumerable<int>>();
+                    Check(TypeRegister.Contains("List<int>"), "generic List<T> definition is not registered");
+                    string ctor = FindCall(listType, "new", enumerableType);
+                    string expression = "List<int>." + ctor + "(" + packed + "(11,22,33))";
+                    var list = Il2CppRuntime.RequireProxy<Il2CppSystem.Collections.Generic.List<int>>(
+                        core.Interface(expression), "constructed list");
+                    Check(list.Count == 3 && list[0] == 11 && list[1] == 22 && list[2] == 33,
+                        "List(IEnumerable<int>) did not retain the array's values");
+                });
+                Test("Register injected class and inspect fields and params", () =>
+                {
+                    ClassInjector.RegisterTypeInIl2Cpp<InjectedProbe>();
+                    Type injectedType = Il2CppType.Of<InjectedProbe>();
+                    Check(TypeRegister.CacheType(injectedType, "NativeInjectedProbe"), "probe alias could not be cached");
+                    core.Interface("@NativeInjectedProbe");
+                    Check(core._fields.ContainsKey("Number") && core._fields.ContainsKey("Label") &&
+                          core._fields.ContainsKey("Items"), "injected native field wrappers were not exposed");
+                    Check(!core._fields.ContainsKey("ManagedOnly"), "managed-only field appeared in native reflection");
+                    Check(Il2CppRuntime.SameType(core._fields["Number"].FieldType, Il2CppType.Of<int>()),
+                        "Number field did not reflect as native int");
+                    Check(Il2CppRuntime.SameType(core._fields["Items"].FieldType,
+                        Il2CppType.Of<Il2CppSystem.Collections.Generic.List<int>>()),
+                        "Items field did not reflect as native List<int>");
+                    bool managedParams = typeof(InjectedProbe).GetMethod(nameof(InjectedProbe.SumParams))!
+                        .GetParameters()[0].IsDefined(typeof(ParamArrayAttribute), false);
+                    Check(managedParams, "fixture lacks managed ParamArrayAttribute");
+                    var nativeParams = injectedType.GetMethods(NavigatorCore.Flag)
+                        .Where(m => m.Name == nameof(InjectedProbe.SumParams)).ToArray();
+                    Log.LogInfo("INJECTED PARAMS REFLECTION: managed=true; native method count=" + nativeParams.Length +
+                        (nativeParams.Length == 0 ? "; not injected" :
+                            "; native parameter type=" + nativeParams[0].GetParameters()[0].ParameterType +
+                            "; native ParamArrayAttribute=" + nativeParams[0].GetParameters()[0]
+                                .IsDefined(Il2CppType.Of<Il2CppSystem.ParamArrayAttribute>(), false)));
+                    Check(nativeParams.Length == 0, "unsupported managed int[] params unexpectedly injected; inspect logged signature");
+                });
+                Test("Injected instance constructor, methods, array and fields", () =>
+                {
+                    Type injectedType = Il2CppType.Of<InjectedProbe>();
+                    string ctor = FindCall(injectedType, "new");
+                    core.Interface("*NativeInjectedProbe." + ctor + "()");
+                    Check(ReadInt("Add(5)") == 5, "native invocation did not update Number");
+                    Check(ReadInt("Number") == 5, "injected field did not reflect updated value");
+                    Check(ReadInt("ArrayLength(" + packed + "(1,2,3))") == 3,
+                        "injected explicit array method did not accept Types.Array<int>");
+                    core.Interface("Number = 7");
+                    Check(ReadInt("Add(2)") == 9, "native field assignment did not persist");
+                    core.Interface("Label = \"native-label\"");
+                    Check(Il2CppRuntime.ReadString(core.Interface("Label"), "label") == "native-label",
+                        "injected string field was not readable after assignment");
+                    Type listType = Il2CppType.Of<Il2CppSystem.Collections.Generic.List<int>>();
+                    string listCtor = FindCall(listType, "new",
+                        Il2CppType.Of<Il2CppSystem.Collections.Generic.IEnumerable<int>>());
+                    core.Interface("Items = List<int>." + listCtor + "(" + packed + "(4,5))");
+                    var items = Il2CppRuntime.RequireProxy<Il2CppSystem.Collections.Generic.List<int>>(
+                        core.Interface("Items"), "injected list field");
+                    Check(items.Count == 2 && items[0] == 4 && items[1] == 5,
+                        "injected list field did not retain the assigned IL2CPP collection");
+                    core.Interface("+native_injected_probe");
+                    try
+                    {
+                        Check(ReadInt("native_injected_probe.Add(1)") == 10, "saved injected instance lost its state");
+                    }
+                    finally { core.Interface("-native_injected_probe"); }
+                });
                 Test("Expanded params", () =>
                 {
                     var array = Il2CppRuntime.RequireProxy<Il2CppSystem.Array>(core.Interface(packed + "(1,2,3)"), "array");

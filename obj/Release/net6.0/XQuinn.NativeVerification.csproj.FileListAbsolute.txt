@@ -10,3 +10,16 @@ C:\Users\user\Desktop\C#Lab\VietnamWarModLab\IL2CPP.Navigator.Verifier\obj\Relea
 C:\Users\user\Desktop\C#Lab\VietnamWarModLab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\refint\IL2CPP.Navigator.Verifier.dll
 C:\Users\user\Desktop\C#Lab\VietnamWarModLab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\IL2CPP.Navigator.Verifier.pdb
 C:\Users\user\Desktop\C#Lab\VietnamWarModLab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\ref\IL2CPP.Navigator.Verifier.dll
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\bin\Release\net6.0\IL2CPP.Navigator.Verifier.deps.json
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\bin\Release\net6.0\IL2CPP.Navigator.Verifier.dll
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\bin\Release\net6.0\IL2CPP.Navigator.Verifier.pdb
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\XQuinn.NativeVerification.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\XQuinn.NativeVerification.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\XQuinn.NativeVerification.AssemblyInfoInputs.cache
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\XQuinn.NativeVerification.AssemblyInfo.cs
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\XQuinn.NativeVerification.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\XQuinn.NativeVerification.sourcelink.json
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\IL2CPP.Navigator.Verifier.dll
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\refint\IL2CPP.Navigator.Verifier.dll
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\IL2CPP.Navigator.Verifier.pdb
+C:\Users\user\Desktop\C#Lab\IL2CPP.Navigator.Verifier\obj\Release\net6.0\ref\IL2CPP.Navigator.Verifier.dll

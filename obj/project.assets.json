@@ -4649,11 +4649,11 @@
   "project": {
     "version": "1.1.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Desktop\\C#Lab\\VietnamWarModLab\\IL2CPP.Navigator.Verifier\\XQuinn.NativeVerification.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Desktop\\C#Lab\\IL2CPP.Navigator.Verifier\\XQuinn.NativeVerification.csproj",
       "projectName": "IL2CPP.Navigator.Verifier",
-      "projectPath": "C:\\Users\\user\\Desktop\\C#Lab\\VietnamWarModLab\\IL2CPP.Navigator.Verifier\\XQuinn.NativeVerification.csproj",
+      "projectPath": "C:\\Users\\user\\Desktop\\C#Lab\\IL2CPP.Navigator.Verifier\\XQuinn.NativeVerification.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Desktop\\C#Lab\\VietnamWarModLab\\IL2CPP.Navigator.Verifier\\obj\\",
+      "outputPath": "C:\\Users\\user\\Desktop\\C#Lab\\IL2CPP.Navigator.Verifier\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

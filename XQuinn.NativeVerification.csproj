@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Compile Include="Plugin.cs" />
+    <Compile Include="InjectedProbe.cs" />
     <Compile Include="NavigatorSource\Extensions.cs" />
     <Compile Include="NavigatorSource\For.cs" />
     <Compile Include="NavigatorSource\IO\BaseIOStream.cs" />
